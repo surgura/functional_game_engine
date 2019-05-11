@@ -8,7 +8,20 @@ namespace tables
 {
 
 template <typename... columns>
-using row_t = std::tuple<columns...>;
+class row_t
+{
+    std::tuple<columns...> data;
+public:
+    row_t(std::tuple<columns...>&& data) :
+        data(data)
+    {}
+
+    template <uint8_t index>
+    auto& get()
+    {
+        return std::get<index>(data);
+    }
+};
 
 template <typename... columns>
 class row_reference_t
@@ -19,6 +32,7 @@ public:
         row(row)
     {}
     row_t<columns...>& operator*() { return row; }
+    row_t<columns...>* operator->() { return &row; }
 };
 
 template <typename... columns>

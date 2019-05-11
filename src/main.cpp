@@ -16,8 +16,8 @@ void physics_step(physics_table_t& physics_table)
 {
      for (auto& row : physics_table)
      {
-          vector& position = std::get<0>(*std::get<0>(*row));
-          vector& velocity = std::get<0>(*std::get<1>(*row));
+          vector& position = row->get<0>()->get<0>();
+          vector& velocity = row->get<1>()->get<0>();
 
           position.x += velocity.x;
           position.y += velocity.y;
@@ -35,9 +35,8 @@ void draw(draw_table_t& draw_table)
 {
      for (auto& row : draw_table)
      {
-          vector& position = std::get<0>(*std::get<0>(*row));
-          texture& tex = std::get<0>(*std::get<1>(*row));
-          // TODO print
+          vector& position = row->get<0>()->get<0>();
+          texture& tex = row->get<1>()->get<0>();
           std::cout << "Drawing: " << tex.tex << " @ " << position.x << " " << position.y << std::endl;
      }
 }
@@ -51,12 +50,12 @@ int main()
      draw_table_t draw_table;
 
      // create the player
-     auto position = position_table.add_row({{1, 1}});
-     auto velocity = velocity_table.add_row({{1, 0}});
-     auto texture = texture_table.add_row({{'P'}});
+     auto position = position_table.add_row({{{1, 1}}});
+     auto velocity = velocity_table.add_row({{{1, 0}}});
+     auto texture = texture_table.add_row({{{'P'}}});
 
-     physics_table.add_row({position, velocity});
-     draw_table.add_row({position, texture});
+     physics_table.add_row({{position, velocity}});
+     draw_table.add_row({{position, texture}});
 
      while(true)
      {
