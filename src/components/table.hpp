@@ -1,17 +1,19 @@
 #pragma once
 
-#include "collection.hpp"
+#include "reference.hpp"
 #include <list>
 
 namespace components
 {
 
 template <typename component_value>
-class table : public collection<component_value>
+class table
 {
+public:
     struct row;
     class reference_impl : public reference<component_value>::impl
     {
+        friend class table;
         typename std::list<row>::iterator container_iter;
     public:
         reference_impl(typename std::list<row>::iterator container_iter) :
@@ -28,6 +30,7 @@ class table : public collection<component_value>
             return &container_iter->value;
         }
     };
+private:
 
     struct row
     {
@@ -61,16 +64,16 @@ public:
         }
     };
     
-    reference<component_value> add(component_value&& item) override
+    reference_impl add(component_value&& item)
     {
         rows.push_front({ item, { rows.end() } });
         rows.back().this_ref = { rows.begin() };
         return { rows.back().this_ref };
     }
 
-    void remove(reference<component_value>& contained_component)
+    void remove(reference_impl& contained_component)
     {
-        // TODO
+        rows.erase(contained_component.container_iter);
     }
 
     iterator begin()
