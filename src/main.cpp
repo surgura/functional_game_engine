@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
-#include "table.hpp"
+#include "components/table.hpp"
 #include <thread>
 
 struct vector
@@ -10,14 +10,19 @@ struct vector
      std::int32_t y;
 };
 
-using physics_table_t = tables::table_t<tables::row_reference_t<vector>, tables::row_reference_t<vector>>;
-
-void physics_step(physics_table_t& physics_table)
+struct physics_object
 {
-     for (auto& row : physics_table)
+     components::reference<vector> position;
+     components::reference<vector> velocity;
+};
+using physics_table = components::table<physics_object>;
+
+void physics_step(physics_table& physics_objects)
+{
+     for (auto& row : physics_objects)
      {
-          vector& position = row->get<0>()->get<0>();
-          vector& velocity = row->get<1>()->get<0>();
+          vector& position = *row->position;
+          vector& velocity = *row->velocity;
 
           position.x += velocity.x;
           position.y += velocity.y;
@@ -29,40 +34,43 @@ struct texture
      char tex;
 };
 
-using draw_table_t = tables::table_t<tables::row_reference_t<vector>, tables::row_reference_t<texture>>;
-
-void draw(draw_table_t& draw_table)
+struct draw_object
 {
-     for (auto& row : draw_table)
+     components::reference<vector> position;
+     components::reference<texture> texture;
+};
+using draw_table = components::table<draw_object>;
+
+void draw(draw_table& draw_objects)
+{
+     for (auto& row : draw_objects)
      {
-          vector& position = row->get<0>()->get<0>();
-          texture& tex = row->get<1>()->get<0>();
+          vector& position = *row->position;
+          texture& tex = *row->texture;
           std::cout << "Drawing: " << tex.tex << " @ " << position.x << " " << position.y << std::endl;
      }
 }
 
 int main()
 {
-     tables::table_t<vector> position_table;
-     tables::table_t<vector> velocity_table;
-     tables::table_t<texture> texture_table;
-     physics_table_t physics_table;
-     draw_table_t draw_table;
+     components::table<vector> position_table;
+     components::table<vector> velocity_table;
+     components::table<texture> texture_table;
+     physics_table physics_objects;
+     draw_table draw_objects;
 
      // create the player
-     auto position = position_table.add_row({{{1, 1}}});
-     auto velocity = velocity_table.add_row({{{1, 0}}});
-     auto texture = texture_table.add_row({{{'P'}}});
+     auto position = position_table.add({ 1, 1 });
+     auto velocity = velocity_table.add({ 1, 0 });
+     auto texture = texture_table.add({ 'P' });
 
-     physics_table.add_row({{position, velocity}});
-     draw_table.add_row({{position, texture}});
+     physics_objects.add({ position, velocity });
+     draw_objects.add({ position, texture });
 
      while(true)
      {
-          //std::string input;
-          //std::cin >> input;
-          physics_step(physics_table);
-          draw(draw_table);
+          physics_step(physics_objects);
+          draw(draw_objects);
           std::this_thread::sleep_for(std::chrono::milliseconds(500));
      }
      return 0;
