@@ -4,7 +4,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 # source files
 set(SRC_FILES
-    test/main.cpp
+	test/main.cpp
+	test/draw.cpp
+    test/physics.cpp
+    test/player_control.cpp
+    test/input.cpp
 )
 
 project(test)
