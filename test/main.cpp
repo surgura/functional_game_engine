@@ -25,7 +25,7 @@ int main()
 	auto texture = texture_table.add({ 'P' });
 	physics_objects.add({ position, velocity });
 	draw_objects.add({ position, texture });
-	player_object player{velocity};
+	player_control_object player{velocity};
 
 	while(true)
 	{

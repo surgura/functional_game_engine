@@ -1,6 +1,6 @@
 #include "player_control.hpp"
 
-void control_player(player_object& player, input_state const& input)
+void control_player(player_control_object& player, input_state const& input)
 {
 	player.velocity->x = 0;
 	player.velocity->y = 0;
