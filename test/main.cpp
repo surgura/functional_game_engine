@@ -21,9 +21,9 @@ int main()
 	components::table<draw_object> draw_objects;
 
 	// create the player
-	auto position = position_table.add({ 1, 5 });
-	auto velocity = velocity_table.add({ 0, 0 });
-	auto texture = texture_table.add({ 'P' });
+	auto& position = position_table.add({ 1, 5 });
+	auto& velocity = velocity_table.add({ 0, 0 });
+	auto& texture = texture_table.add({ 'P' });
 	physics_objects.add({ position, velocity });
 	draw_objects.add({ position, texture });
 	player_control_object player{velocity};
