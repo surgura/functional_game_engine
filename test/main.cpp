@@ -6,6 +6,7 @@
 #include <thread>
 #include "player_control.hpp"
 #include "input.hpp"
+#include "asteroid_factory.hpp"
 
 #include <iostream>
 
@@ -32,6 +33,9 @@ int main()
 		read_input(input);
 		if (input.escape_pressed) {
 			break;
+		}
+		if (input.action_pressed) {
+			create_asteroid(position_table, velocity_table, texture_table, physics_objects, draw_objects);
 		}
 		control_player(player, input);
 		physics_step(physics_objects);

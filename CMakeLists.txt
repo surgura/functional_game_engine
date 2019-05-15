@@ -9,6 +9,7 @@ set(SRC_FILES
     test/physics.cpp
     test/player_control.cpp
     test/input.cpp
+    test/asteroid_factory.cpp
 )
 
 project(test)

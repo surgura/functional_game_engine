@@ -11,6 +11,7 @@ void read_input(input_state& input)
     input.right_pressed = false;
     input.down_pressed = false;
     input.left_pressed = false;
+    input.action_pressed = false;
 	while (_kbhit()) {
 		uint16_t read_char;
 		read_char = _getwch();
@@ -33,6 +34,10 @@ void read_input(input_state& input)
                     input.left_pressed = true;
                 break;
             }
+        } else if (read_char == 113) {
+            input.action_pressed = true;
+        } else {
+            std::cout << (std::uint32_t)read_char << std::endl;
         }
 	}
 }

@@ -7,6 +7,7 @@ struct input_state
     bool left_pressed;
     bool right_pressed;
     bool escape_pressed;
+    bool action_pressed;
 };
 
 void read_input(input_state& input);
