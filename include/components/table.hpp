@@ -22,12 +22,12 @@ public:
 
 	   component_value& operator*() override
 	   {
-		  return container_iter->value;
+			return container_iter->value;
 	   }
 
 	   component_value* operator->() override
 	   {
-		  return &container_iter->value;
+			return &container_iter->value;
 	   }
 	};
 private:
@@ -50,25 +50,25 @@ public:
 
 	   reference<component_value> operator*()
 	   {
-		  return { iter->this_ref };
+			return { iter->this_ref };
 	   }
 	   
 	   bool operator !=(iterator const& other)
 	   {
-		  return iter != other.iter;
+			return iter != other.iter;
 	   }
 
 	   void operator ++()
 	   {
-		  iter++;
+			iter++;
 	   }
 	};
 	
-	reference_impl add(component_value&& item)
+	reference_impl& add(component_value&& item)
 	{
 	   rows.push_front({ item, { rows.end() } });
-	   rows.back().this_ref = { rows.begin() };
-	   return { rows.back().this_ref };
+	   rows.front().this_ref = { rows.begin() };
+	   return rows.front().this_ref;
 	}
 
 	void remove(reference_impl& contained_component)
