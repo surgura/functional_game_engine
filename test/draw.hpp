@@ -6,7 +6,7 @@
 
 struct draw_object
 {
-	components::reference<vector> position;
+	components::reference<vectoru32> position;
 	components::reference<texture> texture;
 };
 

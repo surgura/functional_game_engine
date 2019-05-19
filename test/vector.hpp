@@ -1,9 +1,13 @@
 #pragma once
 
-#include <cstdint>
+#include "types.hpp"
 
+template <typename value_type>
 struct vector
 {
-	std::int32_t x;
-	std::int32_t y;
+	value_type x;
+	value_type y;
 };
+
+using vectoru32 = vector<u32>;
+using vectorf32 = vector<f32>;

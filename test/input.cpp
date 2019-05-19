@@ -1,5 +1,5 @@
 #include "input.hpp"
-#include <cstdint>
+#include "types.hpp"
 #include <conio.h>
 
 #include <iostream>

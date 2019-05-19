@@ -7,7 +7,7 @@
 
 struct player_control_object
 {
-	components::reference<vector> velocity;
+	components::reference<vectorf32> velocity;
 };
 
 void control_player(player_control_object& player, input_state const& input);

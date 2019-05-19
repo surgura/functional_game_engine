@@ -11,10 +11,11 @@ void control_player(player_control_object& player, input_state const& input)
 	if (input.down_pressed) {
 		player.velocity->y -= 1;
 	}
+	/*
 	if (input.right_pressed) {
 		player.velocity->x += 1;
 	}
 	if (input.left_pressed) {
 		player.velocity->x -= 1;
-	}
+	}*/
 }
